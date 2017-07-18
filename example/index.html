@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <!-- 静态文件 -->
+  <link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+  <!-- 自定义文件 -->
+  <link rel="stylesheet" type="text/css" href="./css/index.css">
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="header-wrapper">
+      <div class="to-today">today</div>
+      <div class="today"></div>
+      <div class="cal-header">
+        <span class="fill">M</span>
+        <span class="fill">T</span>
+        <span class="fill">W</span>
+        <span class="fill">T</span>
+        <span class="fill">F</span>
+        <span class="fill">S</span>
+        <span class="fill">S</span>
+        <span class="clear"></span>
+      </div>
+    </div>
+    <div id="table">
+      <div class="body body-month">
+      </div>
+      <div class="bar"></div>
+    </div>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="./js/index.js"></script>
+    <script type="text/javascript">
+    $('#table').Calendar('foldAnimation');
+    </script>
+  </div>
+</body>
+
+</html>
