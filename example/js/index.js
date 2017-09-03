@@ -4,6 +4,7 @@
       this.current = { year: null, month: null, havePre: false, haveNext: false };
       this.settings = $.extend(true, $.fn.Calendar.defaults, options || {});
       this.element = element;
+      this.eventFlag = false;
       this.init();
     }
 
@@ -22,7 +23,9 @@
         me.weekmarginLeft = 0;
         me.activeRow = 0;
         me.writeDateByMonth();
-        me._initEvent();
+        if(!me.eventFlag){
+          me._initEvent();
+        }
       },
 
       /**
@@ -67,7 +70,6 @@
         me.bodyHtml += '<div class="row">';
         //计算上月空格数
         var lastMonthArray = [];
-
         for (var i = 0; i < week - 1; i++) {
           lastMonthArray.unshift(lastMonth - i);
           me.current.havePre = true;
@@ -131,6 +133,7 @@
           this.current.month++;
         }
         this.writeDateByMonth();
+        this.moveRightAnimation();
         this.reader();
       },
 
@@ -145,6 +148,7 @@
           this.current.month--;
         }
         this.writeDateByMonth();
+        me.moveLeftAnimation();        
         this.reader();
       },
 
@@ -298,6 +302,7 @@
        */
       _initEvent: function() {
         var me = this;
+        me.eventFlag = true;
         me.touchStartX = 0;
         me.touchStartY = 0;
         $('.bar').on('click', function() {
@@ -342,7 +347,6 @@
               if (me.barState) {
                 //切换下月
                 me.switchNextMonth();
-                me.moveRightAnimation();
               } else {
                 //切换下周
                 me.moveLeftAnimationWeek();
@@ -351,7 +355,6 @@
             case 4: //向右
               if (me.barState) {
                 //切换下月
-                me.moveLeftAnimation();
                 me.switchPreMonth();
               } else {
                 //切换下周
@@ -462,7 +465,13 @@
        */
       _isEmpty: function() {
         return $('.row:last') == null;
+      },
+
+
+      getcurrentData:function() {
+        return this.current;
       }
+
     };
     return Calendar;
   })();
@@ -471,13 +480,18 @@
    */
   $.fn.Calendar = function(options) {
     return this.each(function() {
-      var me = $(this),
+      try {
+        var me = $(this),
         instance = me.data('Calendar');
       if (!instance) {
         instance = new Calendar(me, options);
         me.data('Calendar', instance);
       }
       if ($.type(options) === 'string') return instance[options]();
+      } catch (error) {
+        console.error('error:','no find api\n',error);
+      }
+     
     })
   };
   /**
